@@ -33,8 +33,7 @@ public class App {
 //			ods.setUser("[Username]");
 //			ods.setPassword("[Password]");
 			ods.setURL("jdbc:oracle:thin:@localhost:1521/FREEPDB1");
-			ods.setUser("SYSTEM");
-			ods.setPassword("dbj8st4m1JR22");
+		
 			Connection conn = ods.getConnection();
 			PreparedStatement stmt = conn.prepareStatement("SELECT 'Hello World!' FROM dual");
 			ResultSet rslt = stmt.executeQuery();
