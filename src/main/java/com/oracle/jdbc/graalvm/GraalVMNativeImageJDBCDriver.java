@@ -24,16 +24,17 @@ import java.sql.SQLException;
 
 import oracle.jdbc.pool.OracleDataSource;
 
-public class App {
+public class GraalVMNativeImageJDBCDriver {
+	
 	public static void main(String[] args) {
 		OracleDataSource ods;
 		try {
 			ods = new OracleDataSource();
 			// jdbc:oracle:thin@[hostname]:[port]/[DB service/name]
-//			ods.setUser("[Username]");
-//			ods.setPassword("[Password]");
-			ods.setURL("jdbc:oracle:thin:@localhost:1521/FREEPDB1");
-		
+			ods.setURL("jdbc:oracle:thin@[hostname]:[port]/[DB service/name]");
+			ods.setUser("[Username]");
+			ods.setPassword("[Password]");
+			
 			Connection conn = ods.getConnection();
 			PreparedStatement stmt = conn.prepareStatement("SELECT 'Hello World!' FROM dual");
 			ResultSet rslt = stmt.executeQuery();
