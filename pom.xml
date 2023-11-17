@@ -12,7 +12,8 @@
 	<name>jdbc-driver-graalvm-nativeimage</name>
 	<description>Introduction to Oracle JDBC Driver Configuration for GraalVM
 		Native Image</description>
-	<url>https://juarezjunior.medium.com/introduction-to-oracle-jdbc-driver-configuration-for-graalvm-native-image-6130e699d03b</url>
+	<url>
+		https://juarezjunior.medium.com/introduction-to-oracle-jdbc-driver-configuration-for-graalvm-native-image-6130e699d03b</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -32,6 +33,19 @@
 			<artifactId>junit</artifactId>
 			<version>4.13.2</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.graalvm.buildtools</groupId>
+			<artifactId>native-maven-plugin</artifactId>
+			<version>0.9.28</version>
+		</dependency>
+		<dependency>
+			<groupId>org.graalvm.nativeimage</groupId>
+			<artifactId>svm</artifactId>
+			<version>23.1.1</version>
+			<scope>provided</scope>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -61,7 +75,8 @@
 					<configuration>
 						<archive>
 							<manifest>
-								<mainClass>com.oracle.jdbc.graalvm.GraalVMNativeImageJDBCDriver</mainClass>
+								<mainClass>
+									com.oracle.jdbc.graalvm.GraalVMNativeImageJDBCDriver</mainClass>
 							</manifest>
 						</archive>
 					</configuration>
@@ -79,5 +94,50 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>native</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.graalvm.buildtools</groupId>
+						<artifactId>native-maven-plugin</artifactId>
+						<version>0.9.28</version>
+						<extensions>true</extensions>
+						<executions>
+							<execution>
+								<id>build-native</id>
+								<goals>
+									<goal>compile-no-fork</goal>
+								</goals>
+								<phase>package</phase>
+							</execution>
+							<execution>
+								<id>test-native</id>
+								<goals>
+									<goal>test</goal>
+								</goals>
+								<phase>test</phase>
+							</execution>
+						</executions>
+
+						<configuration>
+							<fallback>true</fallback>
+							<buildArgs>
+								<arg>-H:DashboardDump=jdbc-driver-graalvm-nativeimage
+									-H:+DashboardAll</arg>
+								<arg>-H:+DashboardAll</arg>
+							</buildArgs>
+							<agent>
+								<enabled>true</enabled>
+							</agent>
+						</configuration>
+
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 </project>
