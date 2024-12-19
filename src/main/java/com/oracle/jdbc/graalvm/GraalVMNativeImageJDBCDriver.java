@@ -31,9 +31,9 @@ public class GraalVMNativeImageJDBCDriver {
 		try {
 			ods = new OracleDataSource();
 			// jdbc:oracle:thin@[hostname]:[port]/[DB service/name]
-			ods.setURL("jdbc:oracle:thin@[hostname]:[port]/[DB service/name]");
-			ods.setUser("[Username]");
-			ods.setPassword("[Password]");
+			ods.setURL("jdbc:oracle:thin:@localhost:1521/FREE");
+			ods.setUser("system");
+			ods.setPassword("password");
 			
 			Connection conn = ods.getConnection();
 			PreparedStatement stmt = conn.prepareStatement("SELECT 'Hello World!' FROM dual");
